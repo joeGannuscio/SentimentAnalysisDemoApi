@@ -1,6 +1,6 @@
 ﻿namespace SentimentAnalysisDemoApi.Services
 {
-    interface IPredictionService
+    public interface IPredictionService
     {
         string Predict(string inputText);
     }
