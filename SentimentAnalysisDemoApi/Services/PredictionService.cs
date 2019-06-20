@@ -1,6 +1,8 @@
-﻿using Microsoft.ML;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.ML;
 using SentimentAnalysisDemoApi.Models;
 using System;
+using System.IO;
 
 namespace SentimentAnalysisDemoApi.Services
 {
@@ -9,10 +11,10 @@ namespace SentimentAnalysisDemoApi.Services
 
         private PredictionEngine<SentimentData, SentimentPrediction> _predictionEngine;
 
-        public PredictionService()
+        public PredictionService(IHostingEnvironment hostingEnvironment)
         {
             var mlContext = new MLContext();
-            var loadedModel = mlContext.Model.Load(@"TrainedModel\SentimentAnalysisDemoModel.zip", out var modelSchema);
+            var loadedModel = mlContext.Model.Load(Path.Combine(hostingEnvironment.ContentRootPath, "SentimentAnalysisDemoModel.zip"), out var modelSchema);
             _predictionEngine = mlContext.Model.CreatePredictionEngine<SentimentData, SentimentPrediction>(loadedModel);
         }
 
