@@ -19,6 +19,12 @@ namespace SentimentAnalysisDemoApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(x => x.AddPolicy("MyPolicy", builder =>
+            {
+                builder.WithOrigins("https://ml-sa-demo-site.herokuapp.com")
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton<IPredictionService, PredictionService>();
         }
@@ -31,6 +37,7 @@ namespace SentimentAnalysisDemoApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("MyPolicy");
             app.UseMvc();
         }
     }

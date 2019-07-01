@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SentimentAnalysisDemoApi.Services;
+using SentimentAnalysisDemoApi.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace SentimentAnalysisDemoApi.Controllers
 {
@@ -15,9 +17,10 @@ namespace SentimentAnalysisDemoApi.Controllers
         }
 
         [HttpPost]
-        public string PredictSentiment([FromBody] string inputText)
+        [EnableCors("MyPolicy")]
+        public string PredictSentiment([FromBody] InputModel inputText)
         {
-            return _predictionService.Predict(inputText);
+            return _predictionService.Predict(inputText.Input);
         }
     }
 }
